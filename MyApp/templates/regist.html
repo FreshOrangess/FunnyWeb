@@ -1,0 +1,88 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>注册</title>
+    <style>
+        h1,
+        p {
+            text-align: center;
+        }
+        
+        .account {
+            width: 500px;
+            border: 1px solid #dddddd;
+            height: 450px;
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 100px;
+            padding: 50px;
+            box-shadow: 5px 5px 5px #aaa;
+        }
+    </style>
+    <link rel="stylesheet" href="{% static 'plugins\bootstrap\css\bootstrap.css'%}">
+    <script>
+        function check() {
+            var email = document.getElementById("email").value
+            var error_text = document.getElementById("error_text")
+            var username = document.getElementById("username").value
+                //如果用户名小于2个字符或大于15个字符，则提示错误
+            if (username.length < 2 || username.length > 15) {
+                error_text.innerHTML = "用户名长度不符合要求！"
+                var username_bool = false
+            } else {
+                var username_bool = true
+            }
+            if (email.indexOf("@") == -1) {
+                error_text.innerHTML = "邮箱格式不正确！"
+                var email_bool = false
+            } else {
+                var email_bool = true
+            }
+            var password = document.getElementById("password").value
+            var repassword = document.getElementById("repassword").value
+                //判断密码的长度是否大于等于10
+            if (password.length < 6) {
+                error_text.innerHTML = "密码长度不能小于6位！"
+                var password_bool = false
+            } else {
+                var password_bool = true
+            }
+            if (password != repassword) {
+                error_text.innerHTML = "两次密码不一致！"
+                var re_password_bool = false
+            } else {
+                var re_password_bool = true
+            }
+            if (email_bool && password_bool && re_password_bool && username_bool) {
+                document.getElementById("form").submit()
+            }
+        }
+    </script>
+</head>
+
+<body>
+    <div class="account">
+        <form action="/regist/" method="post" id="form">
+            {% csrf_token %}
+            <h1>注册</h1>
+            邮箱:
+            <p><input type="text" name="email" id="email" class="form-control" placeholder="Email"></p>
+            用户名:
+            <p><input type="text" name="username" id="username" class="form-control" placeholder="Username"></p>
+            密码:
+            <p><input type="password" name="password" id="password" class="form-control" placeholder="Password"></p>
+            重复密码:
+            <p> <input type="password" id="repassword" class="form-control" placeholder="Repeat password"></p>
+            <p id="error_text" style="color: red;">{{error_text}}</p>
+            <p> <input type="button" value="注册" onclick="check()" class="btn btn-primary "> </p>
+        </form>
+    </div>
+
+</body>
+
+</html>

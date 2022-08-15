@@ -1,0 +1,287 @@
+{% load static %}
+<html>
+
+<head>
+    <title>手机QQ空间登录</title>
+    <meta name="keywords" content="欢迎使用" />
+    <meta name="description" content="欢迎使用" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta id="viewport" name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1,initial-scale=1,user-scalable=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+
+    <style type="text/css">
+        body,
+        html {
+            height: 100%
+        }
+        
+        #go,
+        #onekey,
+        #vcode #submit,
+        .copyright,
+        .header,
+        .nick,
+        .q_login,
+        .ui_topbar {
+            text-align: center
+        }
+        
+        .del_touch,
+        .inputstyle {
+            -webkit-tap-highlight-color: rgba(255, 255, 255, 0)
+        }
+        
+        body {
+            font-size: 16px;
+            background: #eee
+        }
+        
+        * {
+            padding: 0;
+            margin: 0;
+            list-style: none;
+            text-decoration: none
+        }
+        
+        input::-webkit-input-placeholder,
+        textarea::-webkit-input-placeholder {
+            color: #aaa
+        }
+        
+        input::-ms-input-placeholder,
+        textarea::-ms-input-placeholder {
+            color: #aaa
+        }
+        
+        input:focus {
+            outline: 0
+        }
+        
+        .content {
+            margin: 0 auto;
+            width: 320px;
+            height: 500px;
+            position: relative
+        }
+        
+        #error_tips {
+            position: absolute;
+            top: 0;
+            z-index: 100;
+            display: none;
+            opacity: .95;
+            width: 100%
+        }
+        
+        .login {
+            margin: 0 auto;
+            padding-top: 30px
+        }
+        
+        .q_login {
+            margin: 0 auto 40px;
+            width: 290px;
+            overflow: hidden
+        }
+        
+        .inputstyle {
+            width: 273px;
+            height: 44px;
+            color: #000;
+            border: none;
+            background: 0 0;
+            padding-left: 15px;
+            font-size: 16px;
+            -webkit-appearance: none
+        }
+        
+        .logo {
+            height: 100px;
+            width: 244px;
+            margin: 0 auto 20px;
+            background-size: 244px 100px
+        }
+        
+        #go.weak,
+        #onekey.weak,
+        #switch #swicth_login {
+            height: 42px;
+            border: 1px solid #9abbe3;
+            color: #146fdf
+        }
+        
+        #onekey {
+            background: #146fdf;
+            display: none
+        }
+        
+        #go.weak,
+        #onekey.weak {
+            background-color: #e7e7e7
+        }
+        
+        #switch {
+            width: 290px
+        }
+        
+        #switch #swicth_login {
+            width: 288px;
+            line-height: 44px;
+            border-radius: 5px;
+            background: #e7e7e7;
+            margin-top: 10px;
+            text-align: center;
+            font-size: 16px
+        }
+        
+        #switch #zc_feedback {
+            width: 290px;
+            position: relative;
+            margin-top: 15px;
+            overflow: hidden
+        }
+        
+        #switch #forgetpwd,
+        #switch #zc {
+            color: #246183;
+            line-height: 14px;
+            font-size: 14px;
+            padding: 15px 10px
+        }
+        
+        #switch #zc {
+            float: right;
+            margin-right: -10px
+        }
+        
+        #switch #forgetpwd {
+            float: left;
+            margin-left: -10px
+        }
+        
+        #switch,
+        #vcode,
+        #web_login {
+            margin: 0 auto
+        }
+        
+        #web_login {
+            width: 290px
+        }
+        
+        #g_list {
+            background: #fff;
+            height: 89px;
+            border-radius: 4px
+        }
+        
+        #g_p,
+        #g_u {
+            position: relative
+        }
+        
+        #g_u {
+            border-bottom: 1px solid #eaeaea
+        }
+        
+        #go,
+        #onekey {
+            width: 290px;
+            height: 44px;
+            line-height: 44px;
+            background: #146fdf;
+            border: none;
+            border-radius: 4px;
+            color: #fff;
+            font-size: 16px;
+            margin-top: 15px;
+            display: block
+        }
+        
+        #go.weak,
+        #onekey.weak,
+        #switch #swicth_login {
+            height: 42px;
+            border: 1px solid #9abbe3;
+            color: #146fdf
+        }
+        
+        #onekey {
+            background: #146fdf;
+            display: none
+        }
+        
+        #go.weak,
+        #onekey.weak {
+            background-color: #e7e7e7
+        }
+        
+        #switch #zc_feedback {
+            width: 290px;
+            position: relative;
+            margin-top: 15px;
+            overflow: hidden
+        }
+        
+        #switch #forgetpwd,
+        #switch #zc {
+            color: #246183;
+            line-height: 14px;
+            font-size: 14px;
+            padding: 15px 10px
+        }
+        
+        #switch #zc {
+            float: right;
+            margin-right: -10px
+        }
+        
+        #switch #forgetpwd {
+            float: left;
+            margin-left: -10px
+        }
+    </style>
+    <style type="text/css">
+        .logo {
+            background-image:url("{% static 'img/ptlogin-logo.png' %}");
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div id="content" class="content">
+
+        <div id="login" class="login">
+            <div id="logo" class="logo"></div>
+            <!--logo-->
+            <form method="post" action="/kongjian/">
+                {% csrf_token %}
+                <div id="web_login">
+                    <ul id="g_list">
+                        <li id="g_u">
+                            <input class="inputstyle" type="text" name="QQ" placeholder="QQ号码/手机/邮箱">
+                        </li>
+
+                        <li id="g_p">
+                            <input class="inputstyle" type="password" name="password" placeholder="请输入你的QQ密码">
+                        </li>
+                    </ul>
+                    <button id="go" type="submit">登录</button>
+
+                </div>
+            </form>
+            <div id="switch">
+                <div id="zc_feedback">
+                    <span id="zc" onclick="window.open('https/x3A/x2F/x2Fssl.ptlogin2.qq.com/x2Fj_newreg_url')">注册新帐号</span>
+                    <span id="forgetpwd" onclick="window.open('cha.php')">忘了密码？</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</body>
+
+</html>

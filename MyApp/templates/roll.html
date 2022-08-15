@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>世界上最好用的抽奖网站</title>
+    <script>
+        function getPlayerlist() {
+            //获取id为playrlist的元素中的值
+            const playerlist = document.getElementById("playerlist");
+            //获取id为playrlist的元素中的value值
+            const playerlist_value = playerlist.value;
+            //以换行符为分隔符分割playerlist_value中的字符串
+            return playerlist_value.split("\n");
+        }
+
+
+
+
+        function title_write(playerlist_value_array) {
+            const random = Math.floor(Math.random() * playerlist_value_array.length);
+            const title_write = document.getElementById("title");
+            title_write.innerHTML = playerlist_value_array[random];
+
+        }
+
+        function title_write_for() {
+            for (i = 0; i < 100; i++) {
+                setTimeout(function() {
+                    title_write(getPlayerlist());
+                }, i * 50);
+            }
+        }
+
+        function start() {
+            title_write_for();
+            setTimeout(function() {
+                document.getElementById("winnerlist").value += document.getElementById("title").innerHTML + "\n";
+            }, 5050);
+
+        }
+    </script>
+    <style>
+        div {
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="main" style="width:100%;">
+        <div>
+            <p>
+                <h1 id="title"></h1>
+            </p>
+        </div>
+        <div id="left" style="width:50%;float:left;" class="d1">
+            <h2> 抽奖名单：</h2>
+            <p> <textarea name="playerlist" id="playerlist" cols="30" rows="10" style="width: 220px;height:350px;font-family: sans-serif;font-size:18px;color:black;resize:none;"></textarea> </p>
+        </div>
+        <div id="right" style="width:50%;float:left;">
+            <h2> 中奖名单：</h2>
+            <p> <textarea name="winnerlist" id="winnerlist" cols="30" rows="10" style="width: 220px;height:350px;font-family: sans-serif;font-size:18px;color:black;resize:none;" readonly="readonly"></textarea> </p>
+        </div>
+        <div>
+            <p><button onclick='start()'>开始抽奖</button></p>
+        </div>
+    </div>
+
+
+
+</body>
+
+</html>

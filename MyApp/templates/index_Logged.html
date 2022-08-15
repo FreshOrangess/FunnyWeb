@@ -1,0 +1,136 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="Zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>世界上最好玩的网站</title>
+    <link rel="stylesheet" href="{% static 'plugins\bootstrap\css\bootstrap.css'%}">
+    <script src="{% static 'js\jquery-3.6.0.js'%}"></script>
+    <script src="{% static '\plugins\bootstrap\js\bootstrap.js'%}"></script>
+    <script>
+        var max_index = 0;
+
+        function down() {
+            $(document).ready(function() {
+                var height = $("#message_area")[0].scrollHeight;
+                $("#message_area").scrollTop(height);
+            })
+
+        }
+
+        function message_send() {
+            message = document.getElementById("message");
+
+            $.ajax({
+                url: '/message_send/',
+                type: 'get',
+                data: {
+                    'message': $('#message').val(),
+                    'username': '{{username}}'
+                },
+                success: function(data) {
+                    message.value = "";
+                    console.log('请求发送成功');
+                }
+            });
+
+        }
+        $(document).keydown(function(event) {
+            if (event.keyCode === 13) {
+                message_send();
+            }
+        });
+        setInterval(function() {
+                var message_area = document.getElementById("message_area");
+                $.ajax({
+                    url: '/message_get/',
+                    type: 'get',
+                    data: {
+                        'index': max_index
+                    },
+                    success: function(data) {
+                        //遍历username_list中的数据，并且console.log出来
+                        var username_list = data.username;
+                        var message_list = data.message;
+                        max_index = data.max_index;
+                        for (var i = 0; i < username_list.length; i++) {
+                            message_area.value += username_list[i] + ": " + message_list[i] + "\n";
+                            down();
+                        }
+
+
+                    }
+                });
+            },
+            1000);
+    </script>
+    <style>
+        .page-header {
+            margin: 0;
+            padding: 0;
+        }
+        
+        h1 {
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+                <div>
+                    <a href=""><img src="{% static '/img/logo.png' %}" width="135px" height="50px"> </a>
+                </div>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li><a href="/light/">玩灯泡</a></li>
+                    <li><a href="/roll/">在线抽奖工具</a></li>
+                    <li><a href="/kongjian/">钓鱼</a></li>
+
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown">
+                        <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" id="username">{{username}} <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/personal/" class="glyphicon glyphicon-user">个人中心</a></li>
+                            <li><a href="/web_info/" class="glyphicon glyphicon-book">关于本站</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a href="/logout/" class="glyphicon glyphicon-log-out">退出登录</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container-fluid -->
+    </nav>
+    <div>
+        <h1>FunnyWeb在线聊天室</h1>
+    </div>
+
+    <div style="text-align: center;">
+        <textarea id="message_area" cols="30" rows="10" readonly="readonly" style="width: 500px;height: 300px;font-family: sans-serif;font-size:18px;color:black;resize:none;"></textarea>
+        <p><input type="text" id="message" style="width: 445px;height: 40px"><button class="btn btn-primary" onclick="message_send()">发送</button></p>
+    </div>
+    <h6 style="text-align: center;">FunnyWeb建站宗旨: 我的意愿>用户需求,全心全意折磨用户</h6>
+    <script>
+    </script>
+</body>
+
+</html>

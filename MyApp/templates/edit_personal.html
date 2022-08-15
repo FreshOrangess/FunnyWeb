@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>修改个人资料</title>
+    <script>
+        function check() {
+            var error_text = document.getElementById("error_text")
+            var username = document.getElementById("username").value
+                //如果用户名小于2个字符或大于15个字符，则提示错误
+            if (username.length < 2 || username.length > 15) {
+                error_text.innerHTML = "用户名长度不符合要求！"
+                var username_bool = false
+            } else {
+                var username_bool = true
+            }
+            var password = document.getElementById("password").value
+                //判断密码的长度是否大于等于10
+            if (password.length < 6) {
+                error_text.innerHTML = "密码长度不能小于6位！"
+                var password_bool = false
+            } else {
+                var password_bool = true
+            }
+            if (password_bool && username_bool) {
+                document.getElementById("form").submit()
+            }
+        }
+    </script>
+</head>
+
+<body>
+    <h1>修改个人资料：</h1>
+    <form id="form" action="/edit_personal/" method="post">
+        {% csrf_token %}
+        <p>用户名：<input type="text" name="username" value="{{username}}" id="username"></p>
+        <p>密码:<input type="password" name="password" value="{{password}}" id="password"></p>
+        <input type="button" onclick="check()" value="修改">
+    </form>
+    <p id="error_text" style="color: red;"></p>
+</body>
+
+</html>
